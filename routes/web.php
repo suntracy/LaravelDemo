@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Services\InspiringService;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +18,17 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/hello-world', function () {
+
+    return view('hello_world');
+
+}); 
+
+Route::get('/about_us', function () {
+
+    return view('about_us',['name' => 'Laravel 範例']);
+
+});
+
+Route::get('/inspire', 'App\Http\Controllers\InspiringController@inspire'); 
