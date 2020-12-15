@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Auth;
 
 class PostController extends Controller
 {
@@ -14,7 +15,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        return view('posts.index', ['posts' => Post::cursor()]);
     }
 
     /**
@@ -24,10 +25,10 @@ class PostController extends Controller
      */
     public function create()
     {
-        if (is_null(Auth::user)){
+        if (is_null(Auth::user())){
             return redirect(router('login'));
         }else{
-            return views('posts.create');
+            return view('posts.create');
         }
     }
 
@@ -39,7 +40,12 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $post = new Post;
+        $post->content = $request->input('content');
+        $post->subject_id = 0;
+        $post->user_id = 1;
+        $post->save();
+        return redirect(route('posts.index'));
     }
 
     /**
@@ -50,7 +56,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        return view('posts.show', ['post' => $post]);
     }
 
     /**
@@ -61,7 +67,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('posts.edit', ['post' => $post]);
     }
 
     /**
@@ -73,7 +79,9 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $post->content = $request->input('content');
+        $post->save();
+        return redirect(route('posts.show', ['post' => $post]));
     }
 
     /**
@@ -84,6 +92,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+    return redirect(route('posts.index'));
     }
 }

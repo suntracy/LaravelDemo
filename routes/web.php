@@ -43,6 +43,8 @@ Route::get('/edit', function(){
 Route::get('/add', function(){
     $post = new App\Models\Post;
      $post->content = 'abcde';
+     $post->subject_id = 1;
+     $post->user_id = 1;
      $post->save();
      return $post; 
  }); 
@@ -54,17 +56,17 @@ Route::get('/add', function(){
 }); 
 
 Route::get('/sub1', function(){
-    $posts = new App\Models\Subject;
-    $posts->name = 'computer';
-    $posts->save();
-    return $posts;
+    $post = new App\Models\Subject;
+    $post->name = 'computer';
+    $post->save();
+    return $post;
 }); 
 
 Route::get('/sub2', function(){
-    $posts = new App\Models\Subject;
-    $posts->name = 'network';
-    $posts->save();
-    return $posts;
+    $post = new App\Models\Subject;
+    $post->name = 'network';
+    $post->save();
+    return $post;
 }); 
 
 Route::get('/login', function(){
@@ -75,8 +77,8 @@ Route::get('/infor', function(){
     echo Auth::user();
 }); 
 
+Route::resource('posts', 'App\Http\Controllers\PostController');
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Route::resource('posts', 'PostController');
